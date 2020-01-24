@@ -5,7 +5,6 @@ import url from 'url';
 import * as Utils from '../models/utils';
 import * as Actions from '../actions';
 import KeyManager from '../../key-manager';
-import { makeRequest, rootURLForServer } from '../mailspring-api-request';
 import { Disposable } from 'event-kit';
 
 // Note this key name is used when migrating to Mailspring Pro accounts from old N1.
@@ -189,23 +188,6 @@ class _IdentityStore extends MailspringStore {
       return null;
     }
 
-    const json = await makeRequest({
-      server: 'identity',
-      path: '/api/me',
-      method: 'GET',
-    });
-
-    if (!json || !json.id) {
-      AppEnv.reportError(new Error('/api/me returned invalid json'), json || {});
-      return this._identity;
-    }
-
-    if (json.id !== this._identity.id) {
-      console.log('Note: server returned a different identity object.');
-    }
-
-    const nextIdentity = Object.assign({}, this._identity, json);
-    await this.saveIdentity(nextIdentity);
     return this._identity;
   }
 }
