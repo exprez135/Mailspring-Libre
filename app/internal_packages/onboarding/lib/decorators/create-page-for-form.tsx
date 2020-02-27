@@ -109,6 +109,8 @@ const CreatePageForForm = FormComponent => {
         },
         afterSetState
       );
+
+      console.log('account next state is', next);
     };
 
     onSubmit = () => {

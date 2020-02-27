@@ -172,6 +172,23 @@ export async function expandAccountWithCommonSettings(account: Account) {
       .slice(-2)
       .join('.')
   );
+
+  let template = {
+    imap_host: `imap.${domain}`,
+    imap_port: 993,
+    imap_username: usernameWithFormat('email'),
+    imap_password: populated.settings.imap_password,
+    imap_security: 'SSL / TLS',
+    imap_allow_insecure_ssl: false,
+
+    smtp_host: `smtp.${domain}`,
+    smtp_port: 587,
+    smtp_username: usernameWithFormat('email'),
+    smtp_password: populated.settings.smtp_password || populated.settings.imap_password,
+    smtp_security: 'STARTTLS',
+    smtp_allow_insecure_ssl: false,
+  };
+
   const tryUrls = [
     `https://autoconfig.${domain}/mail/config-v1.1.xml?emailaddress=${account.emailAddress}`,
     ...mxDomains.map(
@@ -180,7 +197,6 @@ export async function expandAccountWithCommonSettings(account: Account) {
     `https://autoconfig.thunderbird.net/v1.1/${domain}`,
     ...mxDomains.map(x => `https://autoconfig.thunderbird.net/v1.1/${x}`),
   ];
-  let template;
   for (let url of tryUrls) {
     try {
       console.log('trying', url);
