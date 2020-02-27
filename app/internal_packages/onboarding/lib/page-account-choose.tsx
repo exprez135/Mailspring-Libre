@@ -64,13 +64,13 @@ class AccountChooseForm extends React.Component<AccountBasicSettingsFormProps> {
     account = await expandAccountWithCommonSettings(account);
     OnboardingActions.setAccount(account);
 
-    if (account.settings.imap_host && account.settings.smtp_host) {
-      // expanding the account settings succeeded - try to authenticate
-      this.props.onConnect(account);
-    } else {
-      // we need the user to provide IMAP/SMTP credentials manually
-      OnboardingActions.moveToPage('account-settings-imap');
-    }
+    // if (account.settings.imap_host && account.settings.smtp_host) {
+    //   // expanding the account settings succeeded - try to authenticate
+    //   this.props.onConnect(account);
+    // } else {
+    //   // we need the user to provide IMAP/SMTP credentials manually
+    OnboardingActions.moveToPage('account-settings-imap');
+    // }
   }
 
   render() {
