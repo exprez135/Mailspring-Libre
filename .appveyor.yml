@@ -43,7 +43,7 @@ for:
    after_build:
    - sh: ./scripts/deploy.sh
 
--
+  -
     matrix:
       only:
         - job_name: Windows build
@@ -67,5 +67,5 @@ for:
     - ps: Get-ChildItem .\app\dist\RELEASES | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
 
 
-# Stop Appveyor from "Discovering Tests" forever 
+# Stop Appveyor from "Discovering Tests" forever
 test: off
