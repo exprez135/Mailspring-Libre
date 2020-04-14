@@ -24,23 +24,23 @@ for:
 
     install:
     - sh: sudo apt update
-    - sh: sudo apt install build-essential
-    - sh: sudo apt install clang
-    - sh: sudo apt install libx11-dev
-    - sh: sudo apt install libxkbfile-dev
-    - sh: sudo apt install execstack
-    - sh: sudo apt install fakeroot
-    - sh: sudo apt install g++-4.8
-    - sh: sudo apt install git
-    - sh: sudo apt install libgnome-keyring-dev
-    - sh: sudo apt install libgconf-2-4
-    - sh: sudo apt install libsecret-1-dev
-    - sh: sudo apt install xvfb
-    - sh: sudo apt install rpm
-    - sh: sudo apt install libxext-dev
-    - sh: sudo apt install libxtst-dev
-    - sh: sudo apt install libxkbfile-dev
-    - sh: sudo apt install curl
+    - sh: sudo apt -y install build-essential
+    - sh: sudo apt -y install clang
+    - sh: sudo apt -y install libx11-dev
+    - sh: sudo apt -y install libxkbfile-dev
+    - sh: sudo apt -y install execstack
+    - sh: sudo apt -y install fakeroot
+    - sh: sudo apt -y install g++-4.8
+    - sh: sudo apt -y install git
+    - sh: sudo apt -y install libgnome-keyring-dev
+    - sh: sudo apt -y install libgconf-2-4
+    - sh: sudo apt -y install libsecret-1-dev
+    - sh: sudo apt -y install xvfb
+    - sh: sudo apt -y install rpm
+    - sh: sudo apt -y install libxext-dev
+    - sh: sudo apt -y install libxtst-dev
+    - sh: sudo apt -y install libxkbfile-dev
+    - sh: sudo apt -y install curl
 
     build_script:
     - sh: npm run lint
@@ -74,7 +74,7 @@ for:
    - sh: brew install libxtst-dev
    - sh: brew install libxkbfile-dev
    - sh: brew install curl
-   
+
    build_script:
    - sh: npm run lint
    - sh: npm run postinstall
