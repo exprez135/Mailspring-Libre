@@ -47,8 +47,8 @@ jobs:
         - DEBUG=electron-packager,electron-osx-sign npm run build
     - os: windows
       name: Windows Build
+      language: bash
       script:
-        - powershell Install-Product node 11
         - powershell npm config set msvs_version 2015
         - powershell npm install && powershell npm run build
         - powershell node app/build/create-windows-installer.js
@@ -66,3 +66,4 @@ deploy:
   script: bash scripts/deploy.sh
   on:
     branch: master
+    branch: testing-travis-windows
