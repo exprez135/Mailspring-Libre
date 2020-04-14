@@ -2,12 +2,12 @@ version: '{build}'
 
 environment:
   matrix:
-  - job_name: Windows build
-    appveyor_build_worker_image: Visual Studio 2019
   - job_name: Linux build
     appveyor_build_worker_image: Ubuntu
   - job_name: macOS build
     appveyor_build_worker_image: macos
+  - job_name: Windows build
+    appveyor_build_worker_image: Visual Studio 2019
   global:
     SIGN_BUILD: false
 
@@ -22,6 +22,26 @@ for:
       only:
         - job_name: Linux build
 
+    install:
+    - sh: sudo apt update
+    - sh: sudo apt install build-essential
+    - sh: sudo apt install clang
+    - sh: sudo apt install libx11-dev
+    - sh: sudo apt install libxkbfile-dev
+    - sh: sudo apt install execstack
+    - sh: sudo apt install fakeroot
+    - sh: sudo apt install g++-4.8
+    - sh: sudo apt install git
+    - sh: sudo apt install libgnome-keyring-dev
+    - sh: sudo apt install libgconf-2-4
+    - sh: sudo apt install libsecret-1-dev
+    - sh: sudo apt install xvfb
+    - sh: sudo apt install rpm
+    - sh: sudo apt install libxext-dev
+    - sh: sudo apt install libxtst-dev
+    - sh: sudo apt install libxkbfile-dev
+    - sh: sudo apt install curl
+
     build_script:
     - sh: npm run lint
     - sh: npm run postinstall
@@ -35,6 +55,26 @@ for:
      only:
        - job_name: macOS build
 
+   install:
+   - sh: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+   - sh: brew install build-essential
+   - sh: brew install clang
+   - sh: brew install libx11-dev
+   - sh: brew install libxkbfile-dev
+   - sh: brew install execstack
+   - sh: brew install fakeroot
+   - sh: brew install g++-4.8
+   - sh: brew install git
+   - sh: brew install libgnome-keyring-dev
+   - sh: brew install libgconf-2-4
+   - sh: brew install libsecret-1-dev
+   - sh: brew install xvfb
+   - sh: brew install rpm
+   - sh: brew install libxext-dev
+   - sh: brew install libxtst-dev
+   - sh: brew install libxkbfile-dev
+   - sh: brew install curl
+   
    build_script:
    - sh: npm run lint
    - sh: npm run postinstall
