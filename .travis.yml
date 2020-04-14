@@ -49,9 +49,9 @@ jobs:
       name: Windows Build
       language: bash
       script:
-        - powershell npm config set msvs_version 2015
-        - powershell npm install && powershell npm run build
-        - powershell node app/build/create-windows-installer.js
+        - npm config set msvs_version 2015
+        - npm install && powershell npm run build
+        - node app/build/create-windows-installer.js
 
 
 
