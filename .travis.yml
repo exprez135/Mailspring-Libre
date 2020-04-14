@@ -30,16 +30,30 @@ addons:
 jobs:
   include:
     - os: linux
+      name: Linux Build
       env: CC=gcc-4.8 CXX=g++-4.8
       dist: trusty
+      script:
+        - npm run lint
+        - npm run postinstall
+        - DEBUG=electron-packager,electron-osx-sign npm run build
     - os: osx
+      name: macOS Build
       osx_image: xcode10.1
       env: CC=clang CXX=clang++ SIGN_BUILD=true
+      script:
+        - npm run lint
+        - npm run postinstall
+        - DEBUG=electron-packager,electron-osx-sign npm run build
+    - os: windows
+      name: Windows Build
+      script:
+        - powershell Install-Product node 11
+        - powershell npm config set msvs_version 2015
+        - powershell npm install && powershell npm run build
+        - powershell node app/build/create-windows-installer.js
 
-script:
-  - npm run lint
-  - npm run postinstall
-  - DEBUG=electron-packager,electron-osx-sign npm run build
+
 
 cache:
   directories:
