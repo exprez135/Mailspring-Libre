@@ -41,6 +41,7 @@ for:
     - sh: sudo apt -y install libxtst-dev
     - sh: sudo apt -y install libxkbfile-dev
     - sh: sudo apt -y install curl
+    - sh: sudo apt -y install grunt
 
     build_script:
     - sh: npm run lint
@@ -74,6 +75,7 @@ for:
    - sh: brew install libxtst-dev
    - sh: brew install libxkbfile-dev
    - sh: brew install curl
+   - sh: brew install grunt-cli
 
    build_script:
    - sh: npm run lint
