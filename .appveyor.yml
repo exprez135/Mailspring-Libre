@@ -2,7 +2,6 @@ version: '{build}'
 
 environment:
   matrix:
-  - NODE_VERSION: '11'
   - job_name: Windows build
     appveyor_build_worker_image: Visual Studio 2019
   - job_name: Linux build
@@ -16,29 +15,7 @@ cache:
   - node_modules -> package.json
   - app\node_modules -> app\package.json
 
-init:
-- ps: $env:commit = $env:appveyor_repo_commit.SubString(0,8)
-
-install:
-- ps: Install-Product node $env:NODE_VERSION
-- ps: npm config set msvs_version 2015
-
 for:
-
-  -
-    matrix:
-      only:
-        - job_name: Windows build
-
-    build_script:
-    - cmd: npm install && npm run build
-    - cmd: node app/build/create-windows-installer.js
-
-    after_build:
-    - ps: Get-ChildItem .\app\dist\*.tar.gz | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
-    - ps: Get-ChildItem .\app\dist\MailspringSetup.exe | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
-    - ps: Get-ChildItem .\app\dist\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
-    - ps: Get-ChildItem .\app\dist\RELEASES | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
 
   -
     matrix:
@@ -65,6 +42,30 @@ for:
 
    after_build:
    - sh: ./scripts/deploy.sh
+
+-
+    matrix:
+      only:
+        - job_name: Windows build
+
+    init:
+    - ps: $env:commit = $env:appveyor_repo_commit.SubString(0,8)
+
+    install:
+    - ps: Install-Product node 11
+    - ps: npm config set msvs_version 2015
+
+
+    build_script:
+    - cmd: npm install && npm run build
+    - cmd: node app/build/create-windows-installer.js
+
+    after_build:
+    - ps: Get-ChildItem .\app\dist\*.tar.gz | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
+    - ps: Get-ChildItem .\app\dist\MailspringSetup.exe | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
+    - ps: Get-ChildItem .\app\dist\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
+    - ps: Get-ChildItem .\app\dist\RELEASES | % { Push-AppveyorArtifact $_.FullName -FileName "$($_.Name)" }
+
 
 # Stop Appveyor from "Discovering Tests" forever 
 test: off
