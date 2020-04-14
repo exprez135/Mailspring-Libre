@@ -56,27 +56,6 @@ for:
      only:
        - job_name: macOS build
 
-   install:
-   - sh: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-   - sh: brew install build-essential
-   - sh: brew install clang
-   - sh: brew install libx11-dev
-   - sh: brew install libxkbfile-dev
-   - sh: brew install execstack
-   - sh: brew install fakeroot
-   - sh: brew install g++-4.8
-   - sh: brew install git
-   - sh: brew install libgnome-keyring-dev
-   - sh: brew install libgconf-2-4
-   - sh: brew install libsecret-1-dev
-   - sh: brew install xvfb
-   - sh: brew install rpm
-   - sh: brew install libxext-dev
-   - sh: brew install libxtst-dev
-   - sh: brew install libxkbfile-dev
-   - sh: brew install curl
-   - sh: brew install grunt-cli
-
    build_script:
    - sh: npm run lint
    - sh: npm run postinstall
