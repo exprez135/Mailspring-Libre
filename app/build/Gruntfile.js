@@ -52,7 +52,7 @@ module.exports = grunt => {
 
   if (grunt.option('platform') === 'win32') {
     grunt.registerTask('build-client', [
-      'package',
+      'package', 'create-windows-zip',
       // The Windows electron-winstaller task must be run outside of grunt
     ]);
   } else if (grunt.option('platform') === 'darwin') {
