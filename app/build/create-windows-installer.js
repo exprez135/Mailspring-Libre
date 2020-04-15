@@ -4,10 +4,14 @@
  * directly from a powershell command.
  */
 const path = require('path');
-const { createWindowsInstaller } = require('electron-winstaller');
+const {
+  createWindowsInstaller
+} = require('electron-winstaller');
 
 const appDir = path.join(__dirname, '..');
-const { version } = require(path.join(appDir, 'package.json'));
+const {
+  version
+} = require(path.join(appDir, 'package.json'));
 
 const config = {
   usePackageJson: false,
@@ -40,38 +44,35 @@ createWindowsInstaller(config)
 
 console.log('Starting zip creation for windows exe.');
 
-  module.exports = grunt => {
-    const { spawn } = grunt.config('taskHelpers');
+const done = this.async();
+const zipPath = path.join(grunt.config('outputDir'), 'Mailspring.zip');
 
-    grunt.registerTask('create-windows-zip', 'Zip up Mailspring', function pack() {
-      const done = this.async();
-      const zipPath = path.join(grunt.config('outputDir'), 'Mailspring.zip');
+if (grunt.file.exists(zipPath)) {
+  grunt.file.delete(zipPath, {
+    force: true
+  });
+}
 
-      if (grunt.file.exists(zipPath)) {
-        grunt.file.delete(zipPath, { force: true });
-      }
+const orig = process.cwd();
+process.chdir(path.join(grunt.config('outputDir'), 'mailspring-win32-ia32'));
 
-      const orig = process.cwd();
-      process.chdir(path.join(grunt.config('outputDir'), 'mailspring-win32-ia32'));
+spawn({
+  cmd: 'zip',
+  args: ['-9', '-y', '-r', '-9', '-X', zipPath, 'MailspringSetup.exe'],
+},
+error => {
+  process.chdir(orig);
 
-      spawn(
-        {
-          cmd: 'zip',
-          args: ['-9', '-y', '-r', '-9', '-X', zipPath, 'MailspringSetup.exe'],
-        },
-        error => {
-          process.chdir(orig);
+  if (error) {
+    done(error);
+    return;
+  }
 
-          if (error) {
-            done(error);
-            return;
-          }
+  grunt.log.writeln(`>> Created ${zipPath}`);
+  done(null);
+}
+);
+});
+};
 
-          grunt.log.writeln(`>> Created ${zipPath}`);
-          done(null);
-        }
-      );
-    });
-  };
-
-  console.log('End zip process for windows.');
+console.log('End zip process for windows.');
