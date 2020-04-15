@@ -21,6 +21,7 @@ const config = {
   authors: 'Foundry 376, LLC',
   setupIcon: path.join(appDir, 'build', 'resources', 'win', 'mailspring.ico'),
   setupExe: 'MailspringSetup.exe',
+  setupMsi: 'MailspringSetup.msi',
   exe: 'mailspring.exe',
   name: 'Mailspring',
 };
@@ -37,36 +38,3 @@ createWindowsInstaller(config)
     console.error(`createWindowsInstaller failed: ${e.message}`);
     process.exit(1);
   });
-
-console.log('Starting zip creation for windows exe.');
-
-  const done = this.async();
-  const zipPath = path.join(grunt.config('outputDir'), 'Mailspring.zip');
-
-  if (grunt.file.exists(zipPath)) {
-    grunt.file.delete(zipPath, { force: true });
-  }
-
-  const orig = process.cwd();
-  process.chdir(path.join(grunt.config('outputDir'), 'mailspring-win32-ia32'));
-
-  spawn(
-    {
-      cmd: 'zip',
-      args: ['-9', '-y', '-r', '-9', '-X', zipPath, 'MailspringSetup.exe'],
-    },
-    error => {
-      process.chdir(orig);
-
-      if (error) {
-        done(error);
-        return;
-      }
-
-      grunt.log.writeln(`>> Created ${zipPath}`);
-      done(null);
-    }
-  );
-});
-};
-console.log('End zip process for windows.');
