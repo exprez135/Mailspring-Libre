@@ -38,6 +38,8 @@ createWindowsInstaller(config)
     process.exit(1);
   });
 
+console.log('Starting zip creation for windows exe.');
+
   module.exports = grunt => {
     const { spawn } = grunt.config('taskHelpers');
 
@@ -71,3 +73,5 @@ createWindowsInstaller(config)
       );
     });
   };
+
+  console.log('End zip process for windows.');
